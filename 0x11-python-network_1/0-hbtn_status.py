@@ -9,7 +9,7 @@ A script that
 if __name__ == '__main__':
     from urllib import request
 
-    with urllib.request.urlopen('https://intranet.hbtn.io/status') as res:
+    with request.urlopen('https://intranet.hbtn.io/status') as res:
         content = res.read()
         print("Body response:")
         print("\t- type: {}".format(type(content)))
