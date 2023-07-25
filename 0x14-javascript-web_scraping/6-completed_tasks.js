@@ -1,21 +1,24 @@
 #!/usr/bin/node
-
 const request = require('request');
-const url = process.argv[2];
+const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
 
-request(url, function (error, response, body) {
+request(apiUrl, (error, response, body) => {
   if (error) {
-    console.log(error);
+    console.error(error);
+    return;
   }
+  const todos = JSON.parse(body);
   const completed = {};
-  for (const task of JSON.parse(body)) {
-    if (task.completed === true) {
-      if (completed[task.userId]) {
-        completed[task.userId]++;
+  for (const todo of todos) {
+    if (todo.completed) {
+      if (completed[todo.userId]) {
+        completed[todo.userId] += 1;
       } else {
-        completed[task.userId] = 1;
+        completed[todo.userId] = 1;
       }
     }
   }
-  console.log(completed);
+  for (const [user, count] of Object.entries(completed)) {
+    console.log(`User ${user} has completed ${count} tasks`);
+  }
 });
